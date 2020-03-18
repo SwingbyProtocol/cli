@@ -4,6 +4,9 @@ const constants = require('./src/utils/constants')
 const packageJson = require('./package.json')
 const Configstore = require('configstore')
 const config = new Configstore(packageJson.name)
+if (!(!!config.get(constants.CFG_NODE_URL))) {
+    return console.log(`Please run swingby init`)
+}
 // load handlers
 const handlers = require('./src/handlers')
 
