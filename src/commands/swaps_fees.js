@@ -14,13 +14,21 @@ class SwapsFeesCommand extends Command {
     execute(params) {
         const { config } = params
         const client = new sdk.NodeHttpClient({ url: config.get(CFG_NODE_URL) })
-        client.getSwapFees()
-            .then((fees) => {
-                fees.forEach(element => {
-                    console.log(element)
-                })
-            })
+        return client.getSwapFees()
             .catch(console.error)
+    }
+
+    render(params, data) {
+        const { flags } = params
+        const { table, raw } = flags
+        if (raw) {
+            return data.forEach(element => {
+                console.log(element)
+            })
+        }
+        data.forEach(element => {
+            console.log(`${element.currency}: BridgeFee: ${element.bridgeFeePercent}% MinerFee: ${element.minerFee}`)
+        })
     }
 }
 

@@ -14,13 +14,21 @@ class InfoPeersCommand extends Command {
     execute(params) {
         const { config } = params
         const client = new sdk.NodeHttpClient({ url: config.get(CFG_NODE_URL) })
-        client.getPeers()
-            .then((peers) => {
-                peers.forEach(element => {
-                    console.log(element)
-                })
-            })
+        return client.getPeers()
             .catch(console.error)
+    }
+
+    render(params, data) {
+        const { flags } = params
+        const { table, raw } = flags
+        if (raw) {
+            return data.forEach(element => {
+                console.log(element)
+            })
+        }
+        data.forEach(element => {
+            console.log(`${element.moniker} (version: ${element.version} rank: ${element.rank}): ${element.id}`)
+        })
     }
 }
 

@@ -21,6 +21,10 @@ class Command {
         this.onError(err)
     }
 
+    render(params, data) {
+        console.log(data)
+    }
+
     execute(params) {
     }
 

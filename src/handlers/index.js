@@ -4,7 +4,7 @@ const init = require('./init')
 const swaps = require('./swaps')
 
 module.exports = {
-    [floats.getName()]: floats,
+    // [floats.getName()]: floats,
     [info.getName()]: info,
     [init.getName()]: init,
     [swaps.getName()]: swaps

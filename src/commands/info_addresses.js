@@ -14,13 +14,21 @@ class InfoAddressesCommand extends Command {
     execute(params) {
         const { config } = params
         const client = new sdk.NodeHttpClient({ url: config.get(CFG_NODE_URL) })
-        client.getTssAddresses()
-            .then((addresses) => {
-                addresses.forEach(element => {
-                    console.log(element)
-                })
-            })
+        return client.getTssAddresses()
             .catch(console.error)
+    }
+
+    render(params, data) {
+        const { flags } = params
+        const { table, raw } = flags
+        if (raw) {
+            return data.forEach(element => {
+                console.log(element)
+            })
+        }
+        return data.forEach(element => {
+            console.log(`${element.currency}: ${element.address}`)
+        })
     }
 }
 

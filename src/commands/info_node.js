@@ -14,11 +14,19 @@ class InfoNodeCommand extends Command {
     execute(params) {
         const { config } = params
         const client = new sdk.NodeHttpClient({ url: config.get(CFG_NODE_URL) })
-        client.getStatus()
-            .then((status) => {
-                console.log(status)
-            })
+        return client.getStatus()
             .catch(console.error)
+    }
+
+    render(params, data) {
+        const { flags } = params
+        const { table, raw } = flags
+        if (raw) {
+            return console.log(data)
+        }
+        const ni = data.nodeInfo
+        const si = data.swapInfo
+        console.log(`${ni.moniker} (version: ${ni.version}): ${ni.listenAddr} (${si.coin1} -> ${si.coin2})`)
     }
 }
 

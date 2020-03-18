@@ -34,14 +34,32 @@ class SwapsQueryCommand extends Command {
                 client.querySwaps({ ...queryParams, orInAddress: config.get(CFG_BNB_PUBKEY), orOutAddress: config.get(CFG_BNB_PUBKEY) })
             ])
             .then((res) => {
-                res[0].items = res[0].items.concat(res[1].items)
-                printSwaps(res[0].items.sort((a, b) => a.timestamp < b.timestamp))
+                res[0].items = res[0].items.concat(res[1].items).sort((a, b) => a.timestamp < b.timestamp)
+                return res[0]
             })
             .catch(console.error)
         }
         return client.querySwaps(queryParams)
-            .then((swaps) => printSwaps(swaps.items))
+            .then((swaps) => swaps)
             .catch(console.error)
+    }
+
+    render(params, data) {
+        const { flags } = params
+        const { table, raw } = flags
+
+        if (raw) {
+            return data.items.forEach(element => {
+                console.log(element)
+            })
+        }
+        if (table) {
+            // todo print table
+        } else {
+            return data.items.forEach(element => {
+                console.log(`${element.status}: ${element.addressIn} (${element.amountIn} ${element.currencyIn}) -> ${element.addressOut} (${element.amountOut} ${element.currencyOut})`)
+            })
+        }
     }
 
     getDefinition() {

@@ -24,12 +24,18 @@ class SwapsCreateCommand extends Command {
             queryParams.addressTo = config.get(CFG_BITCOIN_PUBKEY)
         }
         queryParams.amount = ''+queryParams.amount
-        // --toMyBnb --toMyBtc
-        client.swap(queryParams)
-            .then((swap) => {
-                console.log(swap)
-            })
+        return client.swap(queryParams)
             .catch(console.error)
+    }
+
+    render(params, data) {
+        const { flags } = params
+        const { table, raw } = flags
+        if (raw) {
+            return console.log(data)
+        }
+        console.log(`SEND: ${data.amountIn} (${data.currencyIn}) to ${data.addressIn}`)
+        console.log(`RECEIVE: ${data.calc.receive_amount} (${data.currencyOut}) to ${data.addressOut}`)
     }
 
     getDefinition() {

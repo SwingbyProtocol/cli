@@ -10,6 +10,7 @@ const defaultRouteFunc = (commands, params, helpFunc) => {
     for (let i = 0; i < commands.length; i++) {
         if (commands[i].match(nextArg)) {
             commands[i].execute(params)
+                .then((data) => commands[i].render(params, data))
         }
     }
 }
@@ -51,6 +52,9 @@ class Handler {
 
     help() {
         let sections = []
+        if (this.commands.length <= 0) {
+            return
+        }
         this.commands.forEach((cmd) => {
             sections = sections.concat(cmd.getDefinition())
         })
