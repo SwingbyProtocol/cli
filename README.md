@@ -19,10 +19,10 @@ swingby help
 
 ## Quickstart
 
-Query the last 20 confirmed swaps and render as raw json:
+Query the last 20 completed swaps and render as raw json:
 
 ```bash
-swingby swaps query --pageSize=20 --status CONFIRMED --raw
+swingby swaps query --pageSize=20 --status COMPLETED --raw
 ```
 
 Create a new swap to my saved bnb address
