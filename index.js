@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const parseArgs = require('minimist')
 const constants = require('./src/utils/constants')
 // load config
